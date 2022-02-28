@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}
+<title>home page</title>
+{% endblock title %}
+
+
+
+{%block content%}
+{% for message in messages %}
+<div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+  <strong>Message</strong> {{message}}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+
+  <div class="container mt-5 mb-4">
+      <h3 class="mb-3">Read Top Stories</h3>
+
+
+       <div class="row mb-2 my-3 mx-1">
+ {% for blog in blogs %}
+  <div class="col-md-6">
+      <div class="col p-4 d-flex flex-column position-static">
+    <div class="card shadow ">
+
+        <div class="card-body">
+           <h5 class="card-title">{{blog.title}}</h5>
+           <p class="card-text mb-auto">{{blog.content|truncatewords:60|safe}}</p>
+            <a href="blog_detail/{{blog.id }}">
+            <img src="{{ blog.image.url }}" class="responsive-img" alt="{{blog.title}}">
+           <br>
+           <a href="blog_detail/{{blog.id}}" class="stretched-link  btn btn-danger ">view post</a>
+             <form action="{% url 'liked' blog.id %}" method="POST">
+               {% csrf_token %}
+               {% if post_is_liked %}
+                <div class="btn btn-danger btn">
+                  <span class="fa fa-thumbs-o-down " type="submit"  name="id" value="{{blog.id}}"></span> UnLike
+                </div>
+               {% else %}
+                <div class="btn btn-info btn">
+                  <span class="fa fa-thumbs-o-up" type="submit"  name="id" value="{{blog.id}}"></span> Like
+                </div>
+               {% endif %}
+              </form>
+        </div>
+    </div>
+ </div>
+</div>
+       {% endfor %}
+      </div>
+  </div>
+{% endblock %}
