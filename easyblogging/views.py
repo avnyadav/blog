@@ -139,12 +139,18 @@ def change_password(request):
             return render(request,'change_password.html',{'form':fm})
 
 def BlogPostLike(request, pk):
-     blog= get_object_or_404(BlogModel, id=request.POST.get('id'))
+     print(pk)
+     blog= get_object_or_404(BlogModel, id=pk)
+     count = int(request.POST.get("increment"))
+     blog.liked+=count
+     blog.save()
+     """
      if blog.liked.filter(id=request.user.id).exists():
         blog.liked.remove(request.user)
      else:
-        post.liked.add(request.user)
-     return HttpResponseRedirect(reverse('home', args=[str(pk)]))
+        blog.liked.add(request.user)
+        """
+     return redirect(home)
 
 def blog_category(request, category):
     posts = BlogModel.objects.filter(categories__name__contains=category)

@@ -28,20 +28,26 @@
         <div class="card-body">
            <h5 class="card-title">{{blog.title}}</h5>
            <p class="card-text mb-auto">{{blog.content|truncatewords:60|safe}}</p>
-            <a href="blog_detail/{{blog.id }}">
-            <img src="{{ blog.image.url }}" class="responsive-img" alt="{{blog.title}}">
+            {{ blog.categories }}
+
+            <img src="{{ blog.image.url }}" class="responsive-img" alt="{{blog.title}}" style="width: 100%;margin-bottom: 10px;">
            <br>
-           <a href="blog_detail/{{blog.id}}" class="stretched-link  btn btn-danger ">view post</a>
-             <form action="{% url 'liked' blog.id %}" method="POST">
+           <a href="blog_detail/{{blog.id}}" style="    color: #fff;
+    background-color: #17a2b8;
+    border-color: #17a2b8;padding:10px;border-radius:5px;text-decoration:none;">view post </a>
+             <form action="{% url 'liked' blog.id %}" method="POST" style="float: right;">
                {% csrf_token %}
                {% if post_is_liked %}
-                <div class="btn btn-danger btn">
-                  <span class="fa fa-thumbs-o-down " type="submit"  name="id" value="{{blog.id}}"></span> UnLike
-                </div>
+                <div class="btn btn-info btn" style="padding:5px;">
+                   <input type="hidden" name="increment" value="-1">
+                 <span class="fa fa-thumbs-o-up" ></span><input class="btn btn-info btn"   style="padding:5px;" type="submit"  name="id" value="Unliked">
+                </div>  {{ blog.liked }}
+
                {% else %}
-                <div class="btn btn-info btn">
-                  <span class="fa fa-thumbs-o-up" type="submit"  name="id" value="{{blog.id}}"></span> Like
-                </div>
+                <div class="btn btn-info btn" style="padding:5px;">
+                    <input type="hidden" name="increment" value="1">
+                 <span class="fa fa-thumbs-o-up" ></span><input class="btn btn-info btn"   style="padding:5px;" type="submit"  name="id" value="Liked">
+                </div>  {{ blog.liked }}
                {% endif %}
               </form>
         </div>

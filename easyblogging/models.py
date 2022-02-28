@@ -8,7 +8,7 @@ class BlogModel(models.Model):
     content =HTMLField()
     slug=models.SlugField(max_length=1000, null=True , blank=True)
     image=models.ImageField(upload_to='images/',blank=True,null=True)
-    liked = models.ManyToManyField(User, default=None, blank=True,related_name='liked',)
+    liked = models.IntegerField(default=0, blank=True)
     created_at=models.DateTimeField(auto_now_add=True,null=True)
     upload_to=models.DateTimeField(auto_now=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -23,8 +23,6 @@ class BlogModel(models.Model):
         self.slug = generate_slug(self.title)
         super(BlogModel, self).save(*args, **kwargs)
 
-    def number_of_likes(self):
-        return self.liked.count()
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
